@@ -1,0 +1,24 @@
+resources:
+  pipelines:
+    ride_analytics_pipeline:
+      name: "Ride Analytics — Pipeline"
+
+      serverless: true
+      continuous: true
+      catalog: ${var.catalog}
+      schema: realtime
+
+      root_path: ${workspace.file_path}
+
+      libraries:
+        - glob:
+            include: ${workspace.file_path}/transformations/**
+
+      configuration:
+        landing_volume_path: ${var.landing_volume_path}
+
+      channel: CURRENT
+
+      tags:
+        project: ride-analytics
+        env:     ${bundle.target}
